@@ -13,13 +13,13 @@
     {% endblock %}
 </head>
 <body>
-                {% with messages = get_flashed_messages() %}
-                   {% if messages %}
-                      {% for message in messages %}
-                         {{ message }}
-                      {% endfor %}
-                   {% endif %}
-                {% endwith %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
     <div class="container-fluid">
         <div class="row" id="header">
             {% block header %}{% endblock %}

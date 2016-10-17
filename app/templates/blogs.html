@@ -1,0 +1,19 @@
+{% extends "layouts/base.html" %}
+{% block title %}
+    Blogs
+{% endblock %}
+
+    {% block header %}
+       <div class ="row">
+            <div class="col-sm-6">
+                <h4 style="color:#fff;">&nbsp;My Blogs</h4>
+            </div>
+            <div class="col-sm-6 text-center topbar">
+                <span class="glyphicon glyphicon-home"><a href="{{ url_for('dashboard', username = username)}}">&nbsp;Dashboard</a></span>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block section %}
+    <br>
+    {{blog_list}}

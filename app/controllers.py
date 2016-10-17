@@ -1,6 +1,7 @@
 from flask import Flask,render_template,url_for,request,session,redirect,flash
 from flask_pymongo import PyMongo
-from flask_bcrypt import Bcrypt,bcrypt
+from flask_bcrypt import bcrypt
+import datetime
 
 app = Flask(__name__)
 
@@ -75,3 +76,48 @@ def save_user(username):
 def logout():
     session.clear()
     return redirect(url_for('index'))
+
+
+@app.route('/all_blogs/<username>')
+def all_blogs(username):
+    users = mongo.db.Users
+    blogs = mongo.db.Blogs
+    active_user = users.find_one({'Username' : username})
+    user_blogs = blogs.find({'Author_id' : active_user['_id']})
+    blog_list = ""
+    for x in user_blogs:
+        blog_list += x['Title']
+    return blog_list
+
+
+@app.route('/add_blog/Author:<username>',methods=['POST','GET'])
+def add_blog(username):
+    if request.method == 'POST':
+        users = mongo.db.Users
+        blogs = mongo.db.Blogs
+        new_blogTitle = request.form['Blog_Title']
+        new_blogContent= request.form['Blog_Content']
+        author= users.find_one({'Username' : username})
+
+        if new_blogTitle is not None and new_blogContent is not None:
+
+            blogs.insert({'Title': new_blogTitle, 'Content': new_blogContent, \
+                        'Author_id' : author['_id'], 'Date' : datetime.date})
+            flash("Congratulations! You have a new blog")
+            return redirect(url_for('blogs', username=username))
+        flash("Blog must have a title and content")
+
+    return render_template('add_blog.html',username=username)
+
+
+@app.route('/blog/<int:blog_id>',methods=['POST','GET'])
+def blog(blog_id):
+    blogs = mongo.db.Blogs
+    active_blog = blogs.find_one({'_id' : blog_id})
+    id = active_blog['_id']
+    title = active_blog['Title']
+    content = active_blog['Content']
+    date_published = active_blog['Date']
+    author = session
+    return render_template('blog.html', id=id, title=title, content=content, \
+                           date_published=date_published, author=author)

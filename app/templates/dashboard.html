@@ -44,6 +44,9 @@
                 <form action="{{url_for('login')}}">
                     <input type="submit" class="btn btn-primary" value="Edit Blogs" />
                 </form>
+                <form action="{{url_for('add_blog',username=username)}}">
+                    <input type="submit" class="btn btn-primary" value="Add Blog" />
+                </form>
             </div>
         </div>
     {% endblock %}
