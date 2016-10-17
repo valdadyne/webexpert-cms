@@ -1,0 +1,51 @@
+{% extends "layouts/base.html" %}
+{% block title %}
+    WebExpert-CMS
+{% endblock %}
+
+    {% block header %}
+        <div class ="row">
+            <div class="col-sm-6">
+               <h4>Welcome <span style="color:#fff;">{{username}}</span></h4>
+            </div>
+            <div class="col-sm-6 text-center topbar">
+                <ul>
+                    <li><span class="glyphicon glyphicon-user"><a href="{{ url_for('profile') }}">&nbsp;UserProfile</a></span></li>
+                    <li><span class="glyphicon glyphicon-log-out"><a href="{{ url_for('logout') }}">&nbsp;SignOut</a></span></li>
+                </ul>
+            </div>
+        </div>
+
+    {% endblock %}
+    {% block section %}
+        <div class = 'col-sm-12 text-left'>
+            <br>
+            <label for="InputPageName">PageName</label>&nbsp;&nbsp;
+            <span style= "color:#ccc;">webexpert-cms.herokuapp/</span>
+                <input type="text" id="InputPageName" name="PageName" placeholder="PageName">
+            <br>
+            <label for="InputTheme">Theme</label>&nbsp;&nbsp;
+            <input type="text" id="InputTheme" name="Theme" placeholder="Theme" class="hidden">
+            <div class="row">
+                <div class="col-md-4" style="border:2px solid black; height:40vh;">
+
+
+                </div>
+                <div class="col-md-4" style="border:2px solid black; height:40vh;">
+
+                </div>
+                <div class="col-md-4" style="border:2px solid black; height:40vh;">
+
+                </div>
+            </div>
+            <div id="mybuttons" class = "col-sm-12 text-center" style="padding-top:2vh;">
+                <form action="{{url_for('register')}}">
+                    <input type="submit" class="btn btn-primary" value="Save Page" />
+                </form>
+                <form action="{{url_for('login')}}">
+                    <input type="submit" class="btn btn-primary" value="Edit Blogs" />
+                </form>
+            </div>
+        </div>
+    {% endblock %}
+

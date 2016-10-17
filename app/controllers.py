@@ -10,7 +10,7 @@ mongo = PyMongo(app)
 
 
 @app.route('/')
-def home():
+def index():
     return render_template('index.html')
 
 
@@ -47,4 +47,13 @@ def login():
 
 @app.route('/dashboard/<username>')
 def dashboard(username):
-    return""
+    return render_template('dashboard.html',username=username)
+
+@app.route('/profile')
+def profile():
+    return ""
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))

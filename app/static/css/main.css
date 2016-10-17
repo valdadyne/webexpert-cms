@@ -7,6 +7,17 @@ body,html{
     height:15vh;
     background:rgba(0, 77, 64,0.7);
 }
+.topbar{
+    padding-top:3vh;
+    color:#fff;
+}
+.topbar ul,li{
+    display:inline;
+    padding-left:2vh;
+}
+.topbar a{
+    text-decorator:none;
+    color:#fff;}
 #section{
     min-height:70vh;
     height:70vh;
