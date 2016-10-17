@@ -1,0 +1,24 @@
+body,html{
+    min-height:100vh;
+    max-height:100vh;
+}
+#header{
+    min-height:15vh;
+    height:15vh;
+    background:rgba(0, 77, 64,0.7);
+}
+#section{
+    min-height:70vh;
+    height:70vh;
+}
+    #welcome-text{
+        height:50vh;
+    }
+    #mybuttons form{
+        display:inline-block;
+    }
+#footer{
+    min-height:15vh;
+    height:15vh;
+    background:rgba(0, 77, 64,0.7);
+}

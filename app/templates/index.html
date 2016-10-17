@@ -1,0 +1,29 @@
+{% extends "layouts/base.html" %}
+{% block title %}
+    WebExpert-CMS
+{% endblock %}
+
+
+    {% block header %}
+        {{super()}}
+    {% endblock %}
+    {% block section %}
+        <div id='welcome-text'class="col-sm-12 text-center">
+            <h4>
+                <span>Welcome to WebExperts-CMS. We believe that the building of websites should be easy.</span><br>
+                <span>To create a website, simply create an account,select a theme for your page and add information</span><br>
+                <span>Simple.Right? Kindly share with your friends.</span>
+            </h4>
+        </div>
+        <div id="mybuttons" class="col-sm-12 text-center">
+            <form action="{{url_for('register')}}">
+                <input type="submit" class="btn btn-primary" value="Create Account" />
+            </form>
+            <form action="{{url_for('login')}}">
+                <input type="submit" class="btn btn-primary" value="Site Login" />
+            </form>
+        </div>
+    {% endblock %}
+    {% block footer %}
+    {% endblock %}
+
