@@ -26,7 +26,7 @@ def register():
             users.insert({'Username': username, 'Password': hasspwd})
             session['username']= username
             return redirect(url_for('dashboard',username=username))
-        return flash("Username Already Exists!!")
+        flash("Username Already Exists!!")
     return render_template('register.html')
 
 
