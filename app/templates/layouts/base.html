@@ -13,12 +13,20 @@
     {% endblock %}
 </head>
 <body>
+                {% with messages = get_flashed_messages() %}
+                   {% if messages %}
+                      {% for message in messages %}
+                         {{ message }}
+                      {% endfor %}
+                   {% endif %}
+                {% endwith %}
     <div class="container-fluid">
         <div class="row" id="header">
             {% block header %}{% endblock %}
         </div>
         <div class="row" id="section">
-            {% block section %}{% endblock %}
+            {% block section %}
+            {% endblock %}
         </div>
         <div class="row" id="footer">
             {% block footer %}{% endblock %}

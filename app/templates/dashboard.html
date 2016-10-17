@@ -1,15 +1,15 @@
 {% extends "layouts/base.html" %}
 {% block title %}
-    WebExpert-CMS
+    Dashboard {{username}}
 {% endblock %}
     {% block header %}
         <div class ="row">
             <div class="col-sm-6">
-               <h4>Welcome <span style="color:#fff;"></span></h4>
+               <h4>Welcome <span style="color:#fff;">{{username}}</span></h4>
             </div>
             <div class="col-sm-6 text-center topbar">
                 <ul>
-                    <li><span class="glyphicon glyphicon-user"><a href="{{ url_for('profile') }}">&nbsp;UserProfile</a></span></li>
+                    <li><span class="glyphicon glyphicon-user"><a href="{{ url_for('profile', username = username) }}">&nbsp;UserProfile</a></span></li>
                     <li><span class="glyphicon glyphicon-log-out"><a href="{{ url_for('logout') }}">&nbsp;SignOut</a></span></li>
                 </ul>
             </div>

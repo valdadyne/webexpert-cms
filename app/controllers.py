@@ -40,8 +40,8 @@ def login():
         if valid_user:
             if bcrypt.hashpw(password.encode('utf-8'),valid_user['Password'].encode('utf-8')) == valid_user['Password'].encode('utf-8'):
                 session['username']= username
-                return redirect(url_for('dashboard',username=username))
-        return flash("Invalid credentials!! Check username/password combination")
+                return redirect(url_for('dashboard', username=username))
+        flash("Invalid credentials!! Check username/password combination")
     return render_template('login.html')
 
 
@@ -49,9 +49,27 @@ def login():
 def dashboard(username):
     return render_template('dashboard.html', username=username)
 
-@app.route('/profile')
-def profile():
-    return ""
+
+@app.route('/profile/<username>')
+def profile(username):
+    return render_template('profile.html', username=username)
+
+
+@app.route('/save_user/<username>', methods=['POST', 'GET'])
+def save_user(username):
+    if request.method == 'POST':
+        users = mongo.db.Users
+        password = request.form['Password']
+        confirm_password = request.form['ConfirmPassword']
+        if password == confirm_password:
+            valid_user = users.find_one({'Username': username})
+            valid_user['Password'] = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+            users.save(valid_user)
+            flash("Changes Saved")
+            return redirect(url_for('profile', username=username))
+        flash("Invalid credentials!! Kindly confirm Password")
+    return redirect(url_for('profile', username=username))
+
 
 @app.route('/logout')
 def logout():
