@@ -5,10 +5,12 @@
     <title>{% block title %}{% endblock %}</title>
 
     <!-- links-->
-    <link rel="icon" type="image/png" href="static/img/favicon.png">
-    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="static/css/flat-ui.min.css">
-    <link rel="stylesheet" type="text/css" href="static/css/main.css">
+    {% block links %}
+    <link rel="icon" type="image/png" href="{{url_for('.static',filename='img/favicon.png')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('.static',filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('.static',filename='css/flat-ui.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('.static',filename='css/main.css')}}">
+    {% endblock %}
 </head>
 <body>
     <div class="container-fluid">
@@ -24,8 +26,8 @@
     </div>
 
     <!--scripts-->
-    <script src="static/js/jquery.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
+    <script src="{{url_for('.static',filename='js/jquery.js')}}"></script>
+    <script src="{{url_for('.static',filename='js/bootstrap.min.js')}}"></script>
 
 </body>
 </html>

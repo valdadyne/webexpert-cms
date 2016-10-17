@@ -47,7 +47,7 @@ def login():
 
 @app.route('/dashboard/<username>')
 def dashboard(username):
-    return render_template('dashboard.html',username=username)
+    return render_template('dashboard.html', username=username)
 
 @app.route('/profile')
 def profile():
