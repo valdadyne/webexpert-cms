@@ -1,0 +1,23 @@
+body{
+    min-height:100vh;
+    max-width:100%;
+    overflow-x:hidden;
+}
+
+#header {
+    height:10vh;
+    background:#4242;
+    color:#fff;
+}
+
+#section {
+    min-height:80vh;
+
+}
+
+#footer {
+    height:10vh;
+    background:#4242;
+    color:#fff;
+}
+

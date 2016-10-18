@@ -84,10 +84,12 @@ def all_blogs(username):
     blogs = mongo.db.Blogs
     active_user = users.find_one({'Username' : username})
     user_blogs = blogs.find({'Author_id' : active_user['_id']})
-    blog_list = ""
-    for x in user_blogs:
-        blog_list += x['Title']
-    return blog_list
+    # blog_list = ""
+    # for x in user_blogs:
+    #     blog_list += x['Title']
+    return render_template('blogs.html', username=username, user_blogs=user_blogs)
+
+    # return render_template('blogs.html', username=username, blog_list={{blog_list}})
 
 
 @app.route('/add_blog/Author:<username>',methods=['POST','GET'])
@@ -102,9 +104,9 @@ def add_blog(username):
         if new_blogTitle is not None and new_blogContent is not None:
 
             blogs.insert({'Title': new_blogTitle, 'Content': new_blogContent, \
-                        'Author_id' : author['_id'], 'Date' : datetime.date})
+                        'Author_id' : author['_id'], 'Date' : datetime.date.utcnow()})
             flash("Congratulations! You have a new blog")
-            return redirect(url_for('blogs', username=username))
+            return redirect(url_for('all_blogs', username=username))
         flash("Blog must have a title and content")
 
     return render_template('add_blog.html',username=username)
@@ -121,3 +123,25 @@ def blog(blog_id):
     author = session
     return render_template('blog.html', id=id, title=title, content=content, \
                            date_published=date_published, author=author)
+
+
+@app.route('/update_page/<username>', methods=['POST', 'GET'])
+def update_page(username):
+    page= mongo.db.Pages
+    users=mongo.db.Users
+    PageName = request.form['Page_Name']
+    PageTheme = request.form['Theme']
+    active_user = users.find_one({'Username': username})
+    existing_page =page.find_one({'Page_Name': PageName})
+
+    if existing_page and (active_user['_id'] == existing_page['User']):
+        page.save(existing_page)
+        page.insert({'Page_Name': PageName, 'Theme': PageTheme, 'User': active_user['_id']})
+    flash("")
+
+
+
+
+@app.route('/page/<page_id>')
+def page(page_id,theme):
+    return render_template('dark_layout.html', page_id =page_id, theme=theme)

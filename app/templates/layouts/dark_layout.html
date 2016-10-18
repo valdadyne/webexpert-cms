@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{{username}}'s Blog</title>
+
+    <!-- links-->
+    {% block links %}
+    <link rel="icon" type="image/png" href="{{url_for('.static',filename='img/favicon.png')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('.static',filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('.static',filename='css/flat-ui.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('.static',filename='css/dark-layout.css')}}">
+    {% endblock %}
+</head>
+<body>
+    <div class ="container-fluid">
+        <header id="header">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1 text- center">
+                    <h3>{{username}}'s Blog </h3>
+                </div>
+            </div>
+        </header>
+        <section id="content">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1 text- center">
+
+                </div>
+            </div>
+        </section>
+        <footer id="footer">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1 text- center">
+                    <h5>
+                        Built using <b>WebExpert-CMS</b> &nbsp;&nbsp;
+                        <em> <a href="https://webexpert-cms.herokuapp"> Create Your Blog Site</a> </em>
+                    </h5>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!--scripts-->
+    <script src="{{url_for('.static',filename='js/jquery.js')}}"></script>
+    <script src="{{url_for('.static',filename='js/bootstrap.min.js')}}"></script>
+
+</body>
+</html>

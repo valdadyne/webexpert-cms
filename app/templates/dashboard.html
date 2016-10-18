@@ -17,6 +17,7 @@
 
     {% endblock %}
     {% block section %}
+<div class="container">
         <div class = 'col-sm-12 text-left'>
             <br>
             <label for="InputPageName">PageName</label>&nbsp;&nbsp;
@@ -41,7 +42,7 @@
                 <form action="{{url_for('register')}}">
                     <input type="submit" class="btn btn-primary" value="Save Page" />
                 </form>
-                <form action="{{url_for('login')}}">
+                <form action="{{url_for('all_blogs', username=username)}}">
                     <input type="submit" class="btn btn-primary" value="Edit Blogs" />
                 </form>
                 <form action="{{url_for('add_blog',username=username)}}">
@@ -49,5 +50,6 @@
                 </form>
             </div>
         </div>
+</div>
     {% endblock %}
     {% block footer %}{% endblock %}

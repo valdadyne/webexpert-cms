@@ -16,4 +16,10 @@
 
     {% block section %}
     <br>
-    {{blog_list}}
+        {% for i in user_blogs %}
+            <b>{{ i['Title'] }}</b>
+            <br>
+        {% endfor %}
+
+    {% endblock %}
+
