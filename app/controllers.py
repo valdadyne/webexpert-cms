@@ -102,9 +102,9 @@ def add_blog(username):
         if new_blogTitle is not None and new_blogContent is not None:
 
             blogs.insert({'Title': new_blogTitle, 'Content': new_blogContent, \
-                        'Author_id' : author['_id'], 'Date' : datetime.date})
+                        'Author_id' : author['_id'], 'Date' : datetime.datetime.utcnow()})
             flash("Congratulations! You have a new blog")
-            return redirect(url_for('blogs', username=username))
+            return redirect(url_for('dashboard', username=username))
         flash("Blog must have a title and content")
 
     return render_template('add_blog.html',username=username)
