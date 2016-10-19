@@ -10,7 +10,7 @@ body,html{
     background:rgba(0, 77, 64,0.7);
 }
 .topbar{
-    padding-top:3vh;
+    padding:3vh;
     color:#fff;
 }
 .topbar ul,li{
@@ -20,6 +20,10 @@ body,html{
 .topbar a{
     text-decorator:none;
     color:#fff;}
+.blog_list{
+    height:35vh;
+    overflow-y:scroll;
+}
 #section{
     min-height:70vh;
     height:70vh;

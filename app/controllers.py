@@ -26,7 +26,7 @@ def register():
             hasspwd = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
             users.insert({'Username': username, 'Password': hasspwd})
             session['username']= username
-            return redirect(url_for('dashboard',username=username))
+            return redirect(url_for('all_blogs',username=username))
         flash("Username Already Exists!!")
     return render_template('register.html')
 
@@ -41,14 +41,24 @@ def login():
         if valid_user:
             if bcrypt.hashpw(password.encode('utf-8'),valid_user['Password'].encode('utf-8')) == valid_user['Password'].encode('utf-8'):
                 session['username']= username
-                return redirect(url_for('dashboard', username=username))
+                return redirect(url_for('all_blogs', username=username))
         flash("Invalid credentials!! Check username/password combination")
     return render_template('login.html')
 
 
 @app.route('/dashboard/<username>')
-def dashboard(username):
-    return render_template('dashboard.html', username=username)
+# def dashboard(username):
+#     return render_template('dashboard.html', username=username)
+
+def all_blogs(username):
+    users = mongo.db.Users
+    blogs = mongo.db.Blogs
+    active_user = users.find_one({'Username' : username})
+    user_blogs = blogs.find({'Author_id' : active_user['_id']})
+    # blog_list = ""
+    # for x in user_blogs:
+    #     blog_list += x['Title']
+    return render_template('dashboard.html', username=username, user_blogs=user_blogs)
 
 
 @app.route('/profile/<username>')
@@ -77,19 +87,11 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
-
-@app.route('/all_blogs/<username>')
-def all_blogs(username):
-    users = mongo.db.Users
-    blogs = mongo.db.Blogs
-    active_user = users.find_one({'Username' : username})
-    user_blogs = blogs.find({'Author_id' : active_user['_id']})
-    # blog_list = ""
-    # for x in user_blogs:
-    #     blog_list += x['Title']
-    return render_template('blogs.html', username=username, user_blogs=user_blogs)
-
-    # return render_template('blogs.html', username=username, blog_list={{blog_list}})
+#
+# @app.route('/dashboard/<username>')
+#
+#
+#     # return render_template('blogs.html', username=username, blog_list={{blog_list}})
 
 
 @app.route('/add_blog/Author:<username>',methods=['POST','GET'])
@@ -104,7 +106,7 @@ def add_blog(username):
         if new_blogTitle is not None and new_blogContent is not None:
 
             blogs.insert({'Title': new_blogTitle, 'Content': new_blogContent, \
-                        'Author_id' : author['_id'], 'Date' : datetime.date.utcnow()})
+                        'Author_id' : author['_id'], 'Date' : datetime.datetime.utcnow()})
             flash("Congratulations! You have a new blog")
             return redirect(url_for('all_blogs', username=username))
         flash("Blog must have a title and content")
@@ -124,24 +126,3 @@ def blog(blog_id):
     return render_template('blog.html', id=id, title=title, content=content, \
                            date_published=date_published, author=author)
 
-
-@app.route('/update_page/<username>', methods=['POST', 'GET'])
-def update_page(username):
-    page= mongo.db.Pages
-    users=mongo.db.Users
-    PageName = request.form['Page_Name']
-    PageTheme = request.form['Theme']
-    active_user = users.find_one({'Username': username})
-    existing_page =page.find_one({'Page_Name': PageName})
-
-    if existing_page and (active_user['_id'] == existing_page['User']):
-        page.save(existing_page)
-        page.insert({'Page_Name': PageName, 'Theme': PageTheme, 'User': active_user['_id']})
-    flash("")
-
-
-
-
-@app.route('/page/<page_id>')
-def page(page_id,theme):
-    return render_template('dark_layout.html', page_id =page_id, theme=theme)

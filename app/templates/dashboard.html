@@ -3,53 +3,51 @@
     Dashboard {{username}}
 {% endblock %}
     {% block header %}
-        <div class ="row">
-            <div class="col-sm-6">
-               <h4>Welcome <span style="color:#fff;">{{username}}</span></h4>
-            </div>
-            <div class="col-sm-6 text-center topbar">
-                <ul>
-                    <li><span class="glyphicon glyphicon-user"><a href="{{ url_for('profile', username = username) }}">&nbsp;UserProfile</a></span></li>
-                    <li><span class="glyphicon glyphicon-log-out"><a href="{{ url_for('logout') }}">&nbsp;SignOut</a></span></li>
-                </ul>
+        <div class="container-fluid">
+            <div class ="row">
+                <div class="col-sm-6">
+                    <h4 style="color:#fff;">WebExpert-CMS</h4>
+                </div>
+                <div class="col-sm-6 text-right topbar">
+                    <ul>
+                        <li><span class="glyphicon glyphicon-log-out"><a href="{{ url_for('logout') }}">&nbsp;SignOut</a></span></li>
+                    </ul>
+                </div>
             </div>
         </div>
-
     {% endblock %}
     {% block section %}
-<div class="container">
-        <div class = 'col-sm-12 text-left'>
-            <br>
-            <label for="InputPageName">PageName</label>&nbsp;&nbsp;
-            <span style= "color:#ccc;">webexpert-cms.herokuapp/</span>
-                <input type="text" id="InputPageName" name="PageName" placeholder="PageName">
-            <br>
-            <label for="InputTheme">Theme</label>&nbsp;&nbsp;
-            <input type="text" id="InputTheme" name="Theme" placeholder="Theme" class="hidden">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-4" style="border:2px solid black; height:40vh;">
-
-
+                <div class="col-sm-4 text-left" style="padding-top:1vh;">
+                   <b><em>Welcome <span style ="color:red;">{{username}}</span></em></b>
                 </div>
-                <div class="col-md-4" style="border:2px solid black; height:40vh;">
-
-                </div>
-                <div class="col-md-4" style="border:2px solid black; height:40vh;">
-
+                <div class="col-sm-8 text-right">
+                     <div id="mybuttons"style="padding-top:2vh;">
+                        <form action="{{ url_for('profile', username = username) }}">
+                                <input type="submit" class="btn btn-primary" value="Edit Profile" />
+                        </form>
+                        <form action="{{url_for('add_blog',username=username)}}">
+                                <input type="submit" class="btn btn-primary" value="Add Blog" />
+                        </form>
+                    </div>
                 </div>
             </div>
-            <div id="mybuttons" class = "col-sm-12 text-center" style="padding-top:2vh;">
-                <form action="{{url_for('register')}}">
-                    <input type="submit" class="btn btn-primary" value="Save Page" />
-                </form>
-                <form action="{{url_for('all_blogs', username=username)}}">
-                    <input type="submit" class="btn btn-primary" value="Edit Blogs" />
-                </form>
-                <form action="{{url_for('add_blog',username=username)}}">
-                    <input type="submit" class="btn btn-primary" value="Add Blog" />
-                </form>
-            </div>
+                <div class = 'col-sm-12 text-left blog-list' style="color:#111;">
+                        <br>
+                    {% for i in user_blogs %}
+                        <div class="row">
+                            <div class="col-sm-10">
+                              <b>{{ i['Title'] }}</b>
+                            </div>
+                            <div class="col-sm-2">
+                               <a href>Edit Blog</a>&nbsp;
+                               <a href="">Delete Blog</a>
+                            </div>
+                        </div>
+                        <br>
+                    {% endfor %}
+                </div>
         </div>
-</div>
     {% endblock %}
     {% block footer %}{% endblock %}
