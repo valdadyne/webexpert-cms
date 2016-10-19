@@ -47,9 +47,6 @@ def login():
 
 
 @app.route('/dashboard/<username>')
-# def dashboard(username):
-#     return render_template('dashboard.html', username=username)
-
 def all_blogs(username):
     users = mongo.db.Users
     blogs = mongo.db.Blogs
@@ -59,6 +56,22 @@ def all_blogs(username):
     # for x in user_blogs:
     #     blog_list += x['Title']
     return render_template('dashboard.html', username=username, user_blogs=user_blogs)
+
+
+@app.route('/edit_blog/<blog_id>')
+def edit_blog(blog_id,username):
+    blogs = mongo.db.Blogs
+    active_blog =blogs.find_one({'_id' :blog_id})
+    return render_template('blog.html', blog_id=blog_id)
+
+
+@app.route('/delete_blog/<blog_id>')
+def delete_blog(blog_id,username):
+    blogs = mongo.db.Blogs
+    active_blog =blogs.find_one({'_id' :blog_id})
+    blogs.remove(active_blog)
+    return redirect(url_for('all_blogs',username=username))
+
 
 
 @app.route('/profile/<username>')
@@ -86,13 +99,6 @@ def save_user(username):
 def logout():
     session.clear()
     return redirect(url_for('index'))
-
-#
-# @app.route('/dashboard/<username>')
-#
-#
-#     # return render_template('blogs.html', username=username, blog_list={{blog_list}})
-
 
 @app.route('/add_blog/Author:<username>',methods=['POST','GET'])
 def add_blog(username):
