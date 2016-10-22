@@ -9,12 +9,17 @@
         <h4 style="color:#fff;padding-left:2vh;">WebExpert-CMS</h4>
     {% endblock %}
     {% block section %}
-        <div id='welcome-text'class="col-sm-12 text-center">
-            <h4>
-                <span>Welcome to WebExperts-CMS. We believe that the building of websites should be easy.</span><br>
-                <span>To create a website, simply create an account,select a theme for your page and add information</span><br>
+        <div id='welcome-text'class="col-sm-4 text-left">
+            <h5>
+                <span>Welcome to WebExperts-CMS. We believe that the writing of blogs should be easy.</span>
+                <br>
+                <span>To create a  blog, simply create an account,select a title and add content for your blog </span>
+                <br>
                 <span>Simple.Right? Kindly share with your friends.</span>
-            </h4>
+            </h5>
+            <div id="recent-blogs" class="col-sm-8 text-left">
+                
+            </div>
         </div>
         <div id="mybuttons" class="col-sm-12 text-center">
             <form action="{{url_for('register')}}">
@@ -26,5 +31,6 @@
         </div>
     {% endblock %}
     {% block footer %}
+        <h4 style="color:#fff;padding-left:2vh;">&copy; Copyright 2016</h4>
     {% endblock %}
 
