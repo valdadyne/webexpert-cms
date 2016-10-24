@@ -5,10 +5,10 @@
 
     {% block header %}
         <div class ="row">
-            <div class="col-sm-6">
-                <h4 style="color:#fff;">&nbsp;New Blog</h4>
+            <div class="col-sm-10">
+                <h5 style="color:#fff;padding:2vh;">&nbsp;New Blog</h5>
             </div>
-            <div class="col-sm-6 text-center topbar">
+            <div class="col-sm-2 text-center topbar">
                 <span class="glyphicon glyphicon-home"><a href="{{ url_for('all_blogs', username = username)}}">&nbsp;Dashboard</a></span>
             </div>
         </div>
@@ -31,4 +31,7 @@
             </form>
         </div>
     </div>
+    {% endblock %}
+    {% block footer %}
+        <h5 style="color:#fff;padding-left:2vh;">&copy; Copyright 2016</h5>
     {% endblock %}

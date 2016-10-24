@@ -1,5 +1,5 @@
 from flask import Flask,render_template,url_for,request,session,redirect,flash
-from flask_pymongo import PyMongo,pymongo
+from flask_pymongo import PyMongo,ObjectId
 from flask_bcrypt import bcrypt
 import datetime
 
@@ -37,10 +37,10 @@ def login():
         users = mongo.db.Users
         username = request.form['Username']
         password = request.form['Password']
-        valid_user = users.find_one({'Username' : username})
+        valid_user = users.find_one({'Username': username})
         if valid_user:
             if bcrypt.hashpw(password.encode('utf-8'),valid_user['Password'].encode('utf-8')) == valid_user['Password'].encode('utf-8'):
-                session['username']= username
+                session['username'] = username
                 return redirect(url_for('all_blogs', username=username))
         flash("Invalid credentials!! Check username/password combination")
     return render_template('login.html')
@@ -50,50 +50,41 @@ def login():
 def all_blogs(username):
     users = mongo.db.Users
     blogs = mongo.db.Blogs
-    active_user = users.find_one({'Username' : username})
-    user_blogs = blogs.find({'Author_id' : active_user['_id']})
-
-    # offset = int(5)
-    # limit = int(5)
-    #
-    # starting_id = blogs.find().sort('_id', pymongo.ASCENDING)
-    # last_id = starting_id[offset]['_id']
-    #
-    # # user_blogs = blogs.find({'_id': {'$gte':last_id}}).sort('_id', pymongo.ASCENDING).limit(limit)
-    #
-    # next_url = str(offset + limit)
-    # prev_url = str(offset - limit)
-
-    # blog_list = ""
-    # for x in user_blogs:
-    #     blog_list += x['Title']
-    return render_template('dashboard.html', username=username, user_blogs=user_blogs,\
-                           # next_url=next_url,prev_url=prev_url
-           )
+    active_user = users.find_one({'Username': username})
+    user_blogs = blogs.find({'Author_id': active_user['_id']})
+    return render_template('dashboard.html', username=username, user_blogs=user_blogs)
 
 
-@app.route('/edit_blog/<blog_id>', methods=['GET'])
+@app.route('/edit_blog/<blog_id>', methods=['GET','POST'])
 def edit_blog(blog_id):
     blogs = mongo.db.Blogs
-    active_blog = blogs.find_one({'_id': blog_id})
-    blogtitle = active_blog['Title']
-    blogcontent = active_blog['Content']
-
-    return render_template('blog.html', blog_id=blog_id, blogtitle=blogtitle, blogcontent=blogcontent)
+    active_blog = blogs.find_one({'_id': ObjectId(blog_id)})
+    session['blog_id'] = blog_id
+    return render_template('blog.html', active_blog=active_blog)
 
 
-@app.route('/save_blog/<save_blog>')
+@app.route('/save_blog/<blog_id>', methods=['POST','GET'])
 def save_blog(blog_id):
-    return
-
-
-@app.route('/delete_blog/<blog_id>')
-def delete_blog(blog_id,username):
     blogs = mongo.db.Blogs
-    active_blog =blogs.find_one({'_id' :blog_id})
-    blogs.remove(active_blog)
-    return redirect(url_for('all_blogs',username=username))
+    updated_blogTitle = request.form['Blog_Title']
+    updated_blogContent = request.form['Blog_Content']
 
+    active_blog = blogs.find_one({'_id': ObjectId(blog_id)})
+    active_blog['Title'] = updated_blogTitle
+    active_blog['Content'] = updated_blogContent
+
+    blogs.save(active_blog)
+
+    return render_template('blog.html',active_blog=active_blog)
+
+
+@app.route('/delete_blog/<blog_id>?<username>', methods=['POST','GET'])
+def delete_blog(blog_id, username):
+    blogs = mongo.db.Blogs
+    active_blog =blogs.find_one({'_id' :ObjectId(blog_id)})
+    blogs.remove(active_blog)
+    session['username'] = username
+    return redirect(url_for('all_blogs',blog_id=blog_id,username=username))
 
 
 @app.route('/profile/<username>')
