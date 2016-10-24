@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class ="row">
                 <div class="col-sm-6">
-                    <h4 style="color:#fff;">WebExpert-CMS</h4>
+                    <h4 style="color:#fff;">WebExpert</h4>
                 </div>
                 <div class="col-sm-6 text-right topbar">
                     <ul>
@@ -25,7 +25,7 @@
                 <div class="col-sm-8 text-right">
                      <div id="mybuttons"style="padding-top:2vh;">
                         <form action="{{ url_for('profile', username = username) }}">
-                                <input type="submit" class="btn btn-primary" value="Edit Profile" />
+                                <input type="submit" class="btn btn-primary" value="Change Password" />
                         </form>
                         <form action="{{url_for('add_blog',username=username)}}">
                                 <input type="submit" class="btn btn-primary" value="Add Blog" />
@@ -33,23 +33,23 @@
                     </div>
                 </div>
             </div>
-                <div class = 'col-sm-12 text-left blog-list' style="color:#111;">
+                <div class = 'col-sm-12 text-left blog-list'>
                         <br>
                     {% for i in user_blogs %}
                         <div class="row">
-                            <div class="col-sm-10">
-                              <b>{{ i['Title'] }}</b>
-                                <br>
-                              <em>{{ i['Title'] }}</em>
+                            <div class="col-sm-12 text-left">
+
+                              <b>
+                                  <a href="{{ url_for('edit_blog' , blog_id=i['_id']) }}">{{ i['Title'] }}</a></b>
+                              <br>
+                              <em>{{ i['Content'] }}</em>
                             </div>
-                            <!--<div class="col-sm-2">-->
-                               <!--<a href>Edit Blog</a>&nbsp;-->
-                               <!--<a href="">Delete Blog</a>-->
-                            <!--</div>-->
                         </div>
                         <br>
                     {% endfor %}
                 </div>
         </div>
     {% endblock %}
-    {% block footer %}{% endblock %}
+    {% block footer %}
+        <h5 style="color:#fff;padding-left:2vh;">&copy; Copyright 2016</h5>
+    {% endblock %}

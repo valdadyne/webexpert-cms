@@ -1,0 +1,38 @@
+{% extends "layouts/base.html" %}
+{% block title %}
+    Edit Blog
+{% endblock %}
+
+    {% block header %}
+        <div class ="row">
+            <div class="col-sm-6">
+                <h4 style="color:#fff;">&nbsp;Edit Blog</h4>
+            </div>
+            <div class="col-sm-6 text-center topbar">
+                <span class="glyphicon glyphicon-home"><a href="{{ url_for('all_blogs', username = username)}}">&nbsp;Dashboard</a></span>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block section %}
+    <br>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1 text-center">
+                <div class="form-group">
+                   <input type="text" id="InputTitle"class="form-control" name="Blog_Title" placeholder="{{ blogTitle }}>
+                </div>
+                <div class="form-group">
+                   <textarea id="InputContent" class="form-control" name="Blog_Content"rows="12", cols="100"  placeholder ="Enter content here.."/>{{ blogContent }}</textarea>
+                </div>
+                <div id="mybuttons" class="form-group text-right">
+                    <form method=POST action="{{ url_for('edit_blog',blog_id=blog_id) }}">
+                       <button type="submit" value="Save" class="btn btn-primary">Save Blog</button>
+                    </form>
+
+                    <form method=POST action="{{ url_for('delete_blog', blog_id=blog_id) }}">
+                       <button type="submit" value="Save" class="btn btn-primary">Delete Blog</button>
+                    </form>
+                </div>
+        </div>
+    </div>
+    {% endblock %}

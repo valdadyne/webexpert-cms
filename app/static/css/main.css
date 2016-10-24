@@ -9,6 +9,9 @@ body,html{
     height:15vh;
     background:rgba(0, 77, 64,0.7);
 }
+#welcome-text{
+    padding-top:10vh;
+}
 .topbar{
     padding:3vh;
     color:#fff;
@@ -22,6 +25,16 @@ body,html{
     color:#fff;}
 .blog_list{
     height:35vh;
+    overflow-y:scroll;
+}
+.content{
+    padding:2vh;
+}
+.blog-list{
+    margin-top:.5vh;
+    border: .1vh solid #000;
+    min-height:60vh;
+    max-height:60vh;
     overflow-y:scroll;
 }
 #section{

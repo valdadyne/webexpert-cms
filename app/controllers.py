@@ -1,5 +1,5 @@
 from flask import Flask,render_template,url_for,request,session,redirect,flash
-from flask_pymongo import PyMongo
+from flask_pymongo import PyMongo,pymongo
 from flask_bcrypt import bcrypt
 import datetime
 
@@ -46,23 +46,45 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/dashboard/<username>')
+@app.route('/dashboard/<username>', methods=['GET'])
 def all_blogs(username):
     users = mongo.db.Users
     blogs = mongo.db.Blogs
     active_user = users.find_one({'Username' : username})
     user_blogs = blogs.find({'Author_id' : active_user['_id']})
+
+    # offset = int(5)
+    # limit = int(5)
+    #
+    # starting_id = blogs.find().sort('_id', pymongo.ASCENDING)
+    # last_id = starting_id[offset]['_id']
+    #
+    # # user_blogs = blogs.find({'_id': {'$gte':last_id}}).sort('_id', pymongo.ASCENDING).limit(limit)
+    #
+    # next_url = str(offset + limit)
+    # prev_url = str(offset - limit)
+
     # blog_list = ""
     # for x in user_blogs:
     #     blog_list += x['Title']
-    return render_template('dashboard.html', username=username, user_blogs=user_blogs)
+    return render_template('dashboard.html', username=username, user_blogs=user_blogs,\
+                           # next_url=next_url,prev_url=prev_url
+           )
 
 
-@app.route('/edit_blog/<blog_id>')
-def edit_blog(blog_id,username):
+@app.route('/edit_blog/<blog_id>', methods=['GET'])
+def edit_blog(blog_id):
     blogs = mongo.db.Blogs
-    active_blog =blogs.find_one({'_id' :blog_id})
-    return render_template('blog.html', blog_id=blog_id)
+    active_blog = blogs.find_one({'_id': blog_id})
+    blogtitle = active_blog['Title']
+    blogcontent = active_blog['Content']
+
+    return render_template('blog.html', blog_id=blog_id, blogtitle=blogtitle, blogcontent=blogcontent)
+
+
+@app.route('/save_blog/<save_blog>')
+def save_blog(blog_id):
+    return
 
 
 @app.route('/delete_blog/<blog_id>')
